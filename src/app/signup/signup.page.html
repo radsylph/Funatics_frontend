@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-button slot="start" fill="clear">
+      <ion-button class="backbtn"  routerLink="/home" routerDirection="back"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+      </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+<div class="ion-padding container">
+  <h1>Signup</h1>
+    <div class="form-container">
+      <ion-item>
+
+        <ion-input [(ngModel)]="newUser.name" label="Name" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <ion-item>
+       
+        <ion-input [(ngModel)]="newUser.lastname" label="Last name" labelPlacement="floating"></ion-input>
+      </ion-item>
+        <ion-item>
+          
+          <ion-input [(ngModel)]="newUser.username" label="User name" labelPlacement="floating"></ion-input>
+        </ion-item>
+        <ion-item>
+            
+            <ion-input [(ngModel)]="newUser.email" label="Email" labelPlacement="floating"></ion-input>
+       </ion-item>
+        <ion-item>
+          
+          <ion-input type="Password" id="password" [(ngModel)]="newUser.password" label="Password" labelPlacement="floating"></ion-input>
+          <ion-icon name="eye" slot="end" id="show_password"></ion-icon>
+      </ion-item>
+
+      <ion-item>
+        
+        <ion-input type="Password" id="repeat_password" [(ngModel)]="newUser.repeat_password" label="Repeat password" labelPlacement="floating"></ion-input>
+        <ion-icon name="eye" slot="end" id="show_repeat_password"></ion-icon>
+      </ion-item>
+
+      <ion-button expand="block" (click)="signup()">Sing up</ion-button>
+
+      <div class="sign-up">
+        already have an account? <ion-button color="dark" fill="clear" routerLink="/login" routerDirection="forward">Sing up</ion-button>
+      </div>
+    </div>
+</div>
+</ion-content>

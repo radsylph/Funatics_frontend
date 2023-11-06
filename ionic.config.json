@@ -1,0 +1,7 @@
+{
+  "name": "Funatics",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
