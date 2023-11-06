@@ -24,7 +24,12 @@ export class LoginPage implements OnInit {
     password: '',
   };
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.existingUser = {
+      user_info: '',
+      password: '',
+    };
+  }
 
   async Login() {
     if (this.existingUser.user_info == '' || this.existingUser.password == '') {
@@ -75,5 +80,6 @@ export class LoginPage implements OnInit {
           })
           .then((alert) => alert.present());
       });
+    this.navigation.navigateForward('/main/tabs/home');
   }
 }

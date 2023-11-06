@@ -11,7 +11,9 @@ ion-toolbar{
 }
 
 .backbtn{
+    background-color:var(--ion-color-funaprimary);
     margin-left: 20px;
+    border-radius: 10px;
 }
 
 .form-container{
@@ -19,27 +21,23 @@ ion-toolbar{
 }
 
 
-.form-container ion-item{
-    --padding-start: 0;
-    --border-color: #DADADA;
-    margin-bottom: 15px;
+ion-button.Loginbtn{
+    background-color:var(--ion-color-funaprimary);
+    color: var(--ion-color-funaprimary-contrast);
+    margin-top: 15px
 }
 
-.form-container ion-item ion-label{
-    color: #A6A6A6;
-    margin-left:15px ;
-    background: none;
+ion-input{
+    margin-top: 15px
 }
 
-.form-container ion-item ion-icon{
-    color: #c6cbd4;
-    margin-top:auto ;
-}
-
-
-.form-container ion-button{
-    margin-top: 48px;
-}
+ion-input.custom {
+    --background: ;
+    --color: #fff;
+    --placeholder-color: #ddd;
+    --highlight-color-focused:var(--ion-color-funaprimary);
+    
+  }
 
 .sign-up{
     display: flex;

@@ -1,0 +1,12 @@
+ion-tabs{
+    ion-tab-bar{
+        border-top-width: 1px;
+        border-top-color: var(--ion-color-funacomplemen0);
+        background: var(--ion-background-color);
+            ion-tab-button{
+                --color: var(--ion-color-funacomplemen0)
+                --color-selected: var(--ion-color-funacomplemen0-contrast) !important;
+            }
+    }
+
+}
