@@ -1,39 +1,161 @@
 <ion-header>
   <ion-toolbar>
-      <ion-button slot="start" fill="clear">
-      <ion-button color="funaprimary" class="backbtn"  routerLink="/home" routerDirection="back"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
-      </ion-button>
+    <ion-button slot="start" fill="clear">
+      <ion-button
+        color="funaprimary"
+        class="backbtn"
+        routerLink="/home"
+        routerDirection="back"
+        ><ion-icon name="arrow-back-outline"></ion-icon
+      ></ion-button>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
-<div class="ion-padding container">
-  <h1>Signup</h1>
+<ion-content>
+  <div class="ion-padding container">
+    <h1>Signup</h1>
     <div class="form-container">
       <ion-item>
-        <ion-input color="funaprimary" class="custom" [(ngModel)]="newUser.name" label="Name" labelPlacement="floating" fill="solid" placeholder="Name"></ion-input>
+        <ion-input
+          color="funaprimary"
+          class="custom"
+          [(ngModel)]="newUser.name"
+          label="Name"
+          labelPlacement="floating"
+          fill="solid"
+          placeholder="Name"
+        ></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input color="funaprimary" class="custom" [(ngModel)]="newUser.lastname" label="Last name" labelPlacement="floating" fill="solid" placeholder="Last name"></ion-input>
+        <ion-input
+          color="funaprimary"
+          class="custom"
+          [(ngModel)]="newUser.lastname"
+          label="Last name"
+          labelPlacement="floating"
+          fill="solid"
+          placeholder="Last name"
+        ></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input color="funaprimary" class="custom" [(ngModel)]="newUser.username" label="User name" labelPlacement="floating" fill="solid" placeholder="User name"></ion-input>
+        <ion-input
+          color="funaprimary"
+          class="custom"
+          [(ngModel)]="newUser.username"
+          label="User name"
+          labelPlacement="floating"
+          fill="solid"
+          placeholder="User name"
+        ></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input color="funaprimary" class="custom" [(ngModel)]="newUser.email" label="Email" labelPlacement="floating" fill="solid" placeholder="Email"></ion-input>
+        <ion-input
+          color="funaprimary"
+          class="custom"
+          [(ngModel)]="newUser.email"
+          label="Email"
+          labelPlacement="floating"
+          fill="solid"
+          placeholder="Email"
+        ></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input color="funaprimary" class="registerbtn" type="Password" id="password" [(ngModel)]="newUser.password" label="Password" labelPlacement="floating" fill="solid" placeholder="Password"></ion-input>
-        <ion-icon name="eye" slot="end" id="show_password"></ion-icon>
+        <ion-input
+          color="funaprimary"
+          class="registerbtn"
+          type="Password"
+          id="password"
+          [(ngModel)]="newUser.password"
+          label="Password"
+          labelPlacement="floating"
+          fill="solid"
+          placeholder="Password"
+        ></ion-input>
+        <ion-icon
+          name="eye"
+          slot="end"
+          id="show_password"
+          (click)="showPassword()"
+        ></ion-icon>
       </ion-item>
       <ion-item>
-        <ion-input color="funaprimary" class="registerbtn" type="Password" id="repeat_password" [(ngModel)]="newUser.repeat_password" label="Repeat password" labelPlacement="floating" fill="solid" placeholder="Repeat password"></ion-input>
-        <ion-icon name="eye" slot="end" id="show_repeat_password"></ion-icon>
+        <ion-input
+          color="funaprimary"
+          class="registerbtn"
+          id="repeat_password"
+          type="password"
+          [(ngModel)]="newUser.repeat_password"
+          label="Repeat password"
+          labelPlacement="floating"
+          fill="solid"
+          placeholder="Repeat password"
+        ></ion-input>
+        <ion-icon
+          name="eye"
+          slot="end"
+          id="show_repeat_password"
+          (click)="showRepeatPassword()"
+        ></ion-icon>
       </ion-item>
-      <ion-button color="funaprimary" class="registerbtn" expand="block" (click)="signup()">Sign up</ion-button>
+      <ion-item>
+        <ion-grid>
+          <ion-row justify-content-center>
+            <ion-col size="auto">
+              <re-captcha
+                (resolved)="resolved($event)"
+                siteKey="6LfGggkpAAAAANatWumXDa5Exc1rZiCIVYjcQqgJ"
+              ></re-captcha>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item class="upload-container">
+        <ion-label position="floating" style="align-self: center"
+          >Upload a user profile picture</ion-label
+        >
+        <ion-button
+          color="funaprimary"
+          class="uploadbtn"
+          expand="block"
+          (click)="takePicture()"
+          >Upload</ion-button
+        >
+      </ion-item>
+      <!-- <ion-item class="profile-picture-container">
+        <ion-img class="profile-picture" [src]="newUser.profilePicture" *ngIf="newUser.profilePicture"></ion-img>
+      </ion-item>-->
+      <ion-item>
+        <ion-grid>
+          <ion-row justify-content-center>
+            <ion-col size="auto">
+              <div style="border-radius: 50%">
+                <ion-img
+                  [src]="newUser.profilePicture"
+                  *ngIf="newUser.profilePicture"
+                ></ion-img>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-button
+        color="funaprimary"
+        class="registerbtn"
+        expand="block"
+        (click)="signup()"
+        >Sign up</ion-button
+      >
       <div class="sign-up">
-        already have an account? <ion-button color="dark" fill="clear" routerLink="/login" routerDirection="forward">Log in</ion-button>
+        already have an account?
+        <ion-button
+          color="dark"
+          fill="clear"
+          routerLink="/login"
+          routerDirection="forward"
+          >Log in</ion-button
+        >
       </div>
     </div>
-</div>
+  </div>
 </ion-content>

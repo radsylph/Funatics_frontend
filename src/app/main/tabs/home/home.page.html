@@ -1,40 +1,74 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-button  slot="start" fill="clear">
-        <ion-button color="funaprimary" class="backbtn" routerLink="/home" routerDirection="back"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
-        </ion-button>
-    </ion-toolbar>
-  </ion-header>
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-grid [fixed]="true">
+      <ion-row>
+        <ion-col class="header">
+          <ion-avatar
+            class="miniAvatar"
+            routerLink="/main/tabs/user"
+            routerDirection="back"
+          >
+            <ion-img
+              src="https://estaticos-cdn.sport.es/clip/0c9177bb-182c-4db2-9663-d5e01821f9a9_alta-libre-aspect-ratio_default_0.jpg"
+            ></ion-img>
+          </ion-avatar>
+        </ion-col>
+        <ion-col class="header">
+          <img class="centerheader" src="../../assets/img/funatics.png"
+        /></ion-col>
+        <ion-col class="header"> </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
 
-  /**los twitt que renderisa enstan en home.page.ts**/
-  <ion-content [fullscreen]="true">
-    <div id="container">
-        <ion-list>
-            <ion-item *ngFor="let item of items">
-                <ion-row class="wrapper">
-                    <ion-col size="2">
-                        <ion-avatar >
-                            <ion-img [src]="item.img" ></ion-img>
-                        </ion-avatar>
-                    </ion-col>
-                    <ion-col size="10">
-                        <ion-row class="tweet-info">
-                        <ion-col size="12">
-                            <span class="user">{{item.user}}</span>
-                            <span class="handle">@{{item.username}}</span>
-                            <span class="handle">{{item.date}}</span>
-                        </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col size="12">
-                                <div [innerHtml]="item.twitt"></div>
-                                <img class="preview-img" [src]="item.images" alt="">
-                            </ion-col>
-                        </ion-row>
-                    </ion-col>
+<ion-content [scrollY]="false">
+  <div id="container" class="ion-content-scroll-host">
+    <ion-list>
+      <ion-item *ngFor="let Tweet of AllTweets">
+        <ion-row class="wrapper">
+          <ion-col size="2">
+            <ion-avatar *ngIf="Tweet.owner.profilePicture === 'image.png'">
+              <ion-img src="../../../../assets/img/blank_user.png"></ion-img>
+            </ion-avatar>
+            <ion-avatar *ngIf="Tweet.owner.profilePicture != 'image.png'">
+              <ion-img [src]="Tweet.owner.profilePicture"></ion-img>
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="10">
+            <ion-row class="tweet-info">
+              <ion-col size="12">
+                <span class="user">{{Tweet.owner.name}}</span>
+                <span class="handle">@{{Tweet.owner.username}}</span>
+                <span> Created at: {{Tweet.createdAt | date:'short'}}</span>
+                <span *ngIf="Tweet.edited"> Edited</span>
+                <span *ngIf="Tweet.edited" class="handle">
+                  {{Tweet.updatedAt | date:"short"}}</span
+                >
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <div [innerHtml]="Tweet.title"></div>
+                <div [innerHtml]="Tweet.content"></div>
+                <img class="preview-img" [src]="Tweet.image" alt="" />
+              </ion-col>
+              <ion-grid [fixed]="true">
+                <ion-row>
+                  <ion-col class="bottonbtn"
+                    ><ion-icon name="heart-outline"></ion-icon
+                    ><label class="count" [innerHTML]="Tweet.likes"></label
+                  ></ion-col>
+                  <ion-col class="bottonbtn"
+                    ><ion-icon name="chatbox-outline"></ion-icon
+                    ><label class="count" [innerHTML]="Tweet.comments"></label
+                  ></ion-col>
                 </ion-row>
-            </ion-item>
-        </ion-list>
-    </div>
-  </ion-content>
-  
+              </ion-grid>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

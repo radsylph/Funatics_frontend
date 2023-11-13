@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ErrorInterface } from '../interface/error.interface';
 import { NavController } from '@ionic/angular';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-login',
@@ -25,10 +26,38 @@ export class LoginPage implements OnInit {
   };
 
   ngOnInit() {
+    this.getToken();
     this.existingUser = {
       user_info: '',
       password: '',
     };
+  }
+
+  async setToken(token: string) {
+    await Preferences.set({
+      key: 'token',
+      value: token,
+    });
+    this.navigation.navigateForward('/main/tabs/home');
+  }
+
+  async getToken() {
+    const token = await Preferences.get({ key: 'token' });
+    if (token.value) {
+      this.navigation.navigateForward('/main/tabs/home');
+    }
+  }
+
+  showPassword() {
+    const input = document.getElementById('password') as HTMLInputElement;
+    const button = document.getElementById('show_password') as HTMLInputElement;
+    if (input.type == 'password') {
+      input.type = 'text';
+      button.name = 'eye-off';
+    } else {
+      input.type = 'password';
+      button.name = 'eye';
+    }
   }
 
   async Login() {
@@ -70,8 +99,7 @@ export class LoginPage implements OnInit {
           return throwError(error);
         })
       )
-      .subscribe((response) => {
-        console.log(response);
+      .subscribe((response: any) => {
         this.alert
           .create({
             header: 'Success',
@@ -79,7 +107,8 @@ export class LoginPage implements OnInit {
             buttons: ['OK'],
           })
           .then((alert) => alert.present());
+        const { token } = response;
+        this.setToken(token);
       });
-    this.navigation.navigateForward('/main/tabs/home');
   }
 }

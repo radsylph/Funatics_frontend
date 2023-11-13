@@ -1,0 +1,21 @@
+ion-toolbar{
+    --border-width: 0 !important;
+}
+
+
+.header-md::after{
+    background: none !important;
+}
+
+
+.backbtn{
+    background-color:var(--ion-color-funaprimary);
+
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+
+ion-avatar{
+    margin: auto;
+}

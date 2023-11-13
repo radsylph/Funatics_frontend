@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { SignupPageRoutingModule } from './signup-routing.module';
-
+import { RecaptchaModule } from 'ng-recaptcha';
 import { SignupPage } from './signup.page';
 
 @NgModule({
@@ -13,8 +13,9 @@ import { SignupPage } from './signup.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    SignupPageRoutingModule
+    SignupPageRoutingModule,
+    RecaptchaModule,
   ],
-  declarations: [SignupPage]
+  declarations: [SignupPage],
 })
 export class SignupPageModule {}

@@ -1,12 +1,15 @@
 
-<ion-content>
-  <ion-tabs>
-    <ion-tab-bar color="funacomplemen0" slot="bottom">
-      <ion-tab-button tab="home">
+<ion-content [scrollY]="false">
+  <ion-tabs class="ion-content-scroll-host">
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button  color="funacomplemen0" tab="home">
         <ion-icon class="navigation" name="home-outline" ></ion-icon>
       </ion-tab-button>
-      <ion-tab-button  tab="search">
+      <ion-tab-button color="funacomplemen0" tab="search">
         <ion-icon class="navigation" name="search-outline" ></ion-icon>
+      </ion-tab-button>
+      <ion-tab-button color="funacomplemen0" tab="create">
+        <ion-icon name="add-circle-outline"></ion-icon>
       </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>

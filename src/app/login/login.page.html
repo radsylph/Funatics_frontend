@@ -18,8 +18,8 @@
       <ion-input color="funaprimary" class="custom" [(ngModel)]="existingUser.user_info" label="Email / Username" labelPlacement="floating" fill="solid" placeholder="Email / Username"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input color="funaprimary" class="custom" type="Password" label="Password" labelPlacement="floating" [(ngModel)]="existingUser.password" fill="solid" placeholder="Password"></ion-input>
-      <ion-icon name="eye" slot="end"></ion-icon>
+      <ion-input color="funaprimary" class="custom" type="Password" label="Password" labelPlacement="floating" [(ngModel)]="existingUser.password" fill="solid" placeholder="Password" id="password"></ion-input>
+      <ion-icon name="eye" slot="end" id="show_password" (click)="showPassword()"></ion-icon>
     </ion-item>
     <ion-button color="funaprimary" class="Loginbtn" expand="block" (click)="Login()">Log In</ion-button>
     <div class="sign-up">

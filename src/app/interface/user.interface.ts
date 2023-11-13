@@ -5,6 +5,8 @@ export interface newUser {
   email: string;
   password: string;
   repeat_password: string;
+  profilePicture: string | undefined;
+  captchaResponse: string | undefined;
 }
 
 export interface existingUser {
