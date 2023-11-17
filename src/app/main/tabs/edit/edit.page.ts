@@ -6,6 +6,7 @@ import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { CreateTweetInterface } from 'src/app/interface/tweet.interface';
+import { Preferences } from '@capacitor/preferences';
 import { Capacitor } from '@capacitor/core';
 import {
   Storage,
@@ -16,11 +17,11 @@ import {
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.page.html',
-  styleUrls: ['./create.page.scss'],
+  selector: 'app-edit',
+  templateUrl: './edit.page.html',
+  styleUrls: ['./edit.page.scss'],
 })
-export class CreatePage implements OnInit {
+export class EditPage implements OnInit {
   constructor(
     private http: HttpClient,
     private alert: AlertController,
@@ -31,10 +32,21 @@ export class CreatePage implements OnInit {
   newTweet: CreateTweetInterface = {
     title: '',
     content: '',
-    image: '',
   };
 
   test: any;
+
+  ownerToken: any;
+
+  async deleteToken() {
+    await Preferences.remove({ key: 'token' });
+  }
+
+  async getToken() {
+    await Preferences.get({ key: 'Ownertoken' }).then((res) => {
+      this.ownerToken = res.value;
+    });
+  }
 
   async takePicture() {
     try {
@@ -83,15 +95,29 @@ export class CreatePage implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.newTweet = {
-      title: '',
-      content: '',
-      image: '',
-    };
+  async ngOnInit() {
+    this.getToken();
+    const id = await Preferences.get({ key: 'tweetId' });
+
+    try {
+      this.http
+        .get(
+          `https://funaticsbackend-production.up.railway.app/funa/get/${id.value}`
+        )
+        .subscribe((res: any) => {
+          console.log(res);
+          this.newTweet.title = res.tweet.title;
+          this.newTweet.content = res.tweet.content;
+          this.newTweet.image = res.tweet.image;
+          console.log(this.newTweet);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  async CreatePost() {
+  async editPost() {
+    const id = await Preferences.get({ key: 'tweetId' });
     if (this.newTweet.title == '') {
       this.alert
         .create({
@@ -111,17 +137,18 @@ export class CreatePage implements OnInit {
     } catch (error) {
       console.log(error);
     }
+    console.log(this.newTweet);
     try {
-      await this.http
-        .post(
-          'https://funaticsbackend-production.up.railway.app/funa/create',
+      this.http
+        .put(
+          `https://funaticsbackend-production.up.railway.app/funa/edit/${id.value}`,
           this.newTweet
         )
         .subscribe((res: any) => {
           this.alert
             .create({
               header: 'Success',
-              message: 'Your tweet has been created',
+              message: 'Your tweet has been edited',
               buttons: ['Ok'],
             })
             .then((res) => {

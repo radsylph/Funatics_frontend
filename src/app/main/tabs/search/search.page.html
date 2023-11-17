@@ -1,13 +1,63 @@
-<ion-header [translucent]="true">
+<ion-header collapse="fade">  
   <ion-toolbar>
-    <ion-title>search</ion-title>
-  </ion-toolbar>
+                 
+    <ion-searchbar show-clear-button="always" value="Always Show"></ion-searchbar>
+
+    <ion-segment [scrollable]="true" value="Featured">
+      <ion-segment-button value="Featured">
+        Featured
+      </ion-segment-button>
+      <ion-segment-button value="Less_Prominent">
+        Less Prominent
+      </ion-segment-button>
+      <ion-segment-button value="Most Recent">
+        Most Recent
+      </ion-segment-button>
+      <ion-segment-button value="People">
+        People
+      </ion-segment-button>
+      <ion-segment-button value="Multimedia Content">
+        Multimedia Content
+      </ion-segment-button>
+      <ion-segment-button value="More_News">
+        More News
+      </ion-segment-button>
+      <ion-segment-button value="More_olds">
+        More olds
+      </ion-segment-button>
+    </ion-segment>
+        
+  </ion-toolbar>   
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">search</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-content [scrollY]="false">
+    <div id="container" class="ion-content-scroll-host ">
+        <ion-list>
+            <ion-item *ngFor="let item of items">
+                <ion-row class="wrapper">
+                    <ion-col size="2">
+                        <ion-avatar class="postAvatar" >
+                            <ion-img [src]="item.img" ></ion-img>
+                        </ion-avatar>
+                    </ion-col>
+                    <ion-col size="10">
+                        <ion-row class="tweet-info">
+                        <ion-col size="20">
+                            <span class="user">{{item.user}}</span>
+                            <span class="handle">@{{item.username}}</span>
+                            <ion-button class="Followbn" fill="solid" color="funaprimary">
+                              Follow 
+                            </ion-button>
+                        </ion-col>
+
+                        </ion-row>
+
+                    </ion-col>
+
+                </ion-row>
+            </ion-item>
+        </ion-list>
+    </div>
+  </ion-content>
 </ion-content>

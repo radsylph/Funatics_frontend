@@ -5,12 +5,16 @@
         <ion-col class="header">
           <ion-avatar
             class="miniAvatar"
-            routerLink="/main/tabs/user"
-            routerDirection="back"
+            *ngIf="User.profilePicture === 'image.png'"
+            (click)="viewUser(User._id)"
           >
-            <ion-img
-              src="https://estaticos-cdn.sport.es/clip/0c9177bb-182c-4db2-9663-d5e01821f9a9_alta-libre-aspect-ratio_default_0.jpg"
-            ></ion-img>
+            <ion-img src="../../../../assets/img/blank_user.png"></ion-img>
+          </ion-avatar>
+          <ion-avatar
+            class="miniAvatar"
+            *ngIf="User.profilePicture != 'image.png'"
+          >
+            <ion-img [src]="User.profilePicture"></ion-img>
           </ion-avatar>
         </ion-col>
         <ion-col class="header">
@@ -19,6 +23,10 @@
         <ion-col class="header"> </ion-col>
       </ion-row>
     </ion-grid>
+    <ion-segment [scrollable]="true" value="For_You">
+      <ion-segment-button value="For_You"> For You </ion-segment-button>
+      <ion-segment-button value="Following"> Following </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
@@ -29,14 +37,21 @@
         <ion-row class="wrapper">
           <ion-col size="2">
             <ion-avatar *ngIf="Tweet.owner.profilePicture === 'image.png'">
-              <ion-img src="../../../../assets/img/blank_user.png"></ion-img>
+              <ion-img
+                src="../../../../assets/img/blank_user.png"
+                (click)="viewUser(Tweet.owner._id)"
+              ></ion-img>
             </ion-avatar>
             <ion-avatar *ngIf="Tweet.owner.profilePicture != 'image.png'">
-              <ion-img [src]="Tweet.owner.profilePicture"></ion-img>
+              <ion-img
+                [src]="Tweet.owner.profilePicture"
+                (click)="viewUser(Tweet.owner._id)"
+              ></ion-img>
             </ion-avatar>
           </ion-col>
+
           <ion-col size="10">
-            <ion-row class="tweet-info">
+            <ion-row class="tweet-info" (click)="viewPost(Tweet._id)">
               <ion-col size="12">
                 <span class="user">{{Tweet.owner.name}}</span>
                 <span class="handle">@{{Tweet.owner.username}}</span>
@@ -55,14 +70,31 @@
               </ion-col>
               <ion-grid [fixed]="true">
                 <ion-row>
-                  <ion-col class="bottonbtn"
-                    ><ion-icon name="heart-outline"></ion-icon
-                    ><label class="count" [innerHTML]="Tweet.likes"></label
+                  <ion-col class="bottonbtn">
+                    <ion-icon
+                      *ngIf="Tweet.isLiked === true"
+                      name="flame"
+                      (click)="toggleLike(Tweet,Tweet._id)"
+                    ></ion-icon>
+                    <ion-icon
+                      *ngIf="Tweet.isLiked === false"
+                      name="flame-outline"
+                      (click)="toggleLike(Tweet,Tweet._id)"
+                    ></ion-icon>
+                    <label class="count" [innerHTML]="Tweet.likes"></label
                   ></ion-col>
                   <ion-col class="bottonbtn"
                     ><ion-icon name="chatbox-outline"></ion-icon
                     ><label class="count" [innerHTML]="Tweet.comments"></label
                   ></ion-col>
+                  <div *ngIf="ownerToken === Tweet.owner._id">
+                    <ion-button fill="clear" (click)="EditTweet(Tweet._id)">
+                      <ion-icon
+                        class="OptTwits"
+                        name="ellipsis-vertical"
+                      ></ion-icon>
+                    </ion-button>
+                  </div>
                 </ion-row>
               </ion-grid>
             </ion-row>

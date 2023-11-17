@@ -1,0 +1,86 @@
+ion-avatar.miniAvatar{
+    max-width: 30px !important;  //any size
+    max-height: 30px !important;
+    }
+
+ion-col.header{
+
+    text-align: center;
+  }
+
+img.centerheader{
+    width: 30px;
+    height: 30px;
+}
+
+
+.header-md::after{
+  background: none !important;
+}
+
+.container h1{
+    margin-top: 0;
+}
+
+
+.container h1{
+    margin-top: 0;
+}
+
+
+.tweet-info{
+    font-size: 0.8em;
+
+}
+
+ion-avatar.miniAvatar{
+max-width: 30px !important;  //any size
+max-height: 30px !important;
+}
+
+ion-avatar.postAvatar{
+
+max-width: 45px !important;  //any size
+max-height: 45px !important; //any size
+margin-top: 5px;
+}
+
+.name{
+    font-size: 600;
+}
+
+.handle{
+    padding-left: 5px;
+    color:var(--ion-color-funaprimary)
+}
+
+.user{
+    padding-left: 8px;
+}
+
+
+
+.highlight{
+    color:var(--ion-color-funacomplemen0) ;
+}
+
+.preview-img{
+    border: 1px solid var(--ion-color-funacomplemen1-contrast);
+    border-radius: 10px;
+}
+
+ion-col.bottonbtn {
+    
+    text-align: center;
+  }
+
+  label.count{
+    margin-left: 3px;
+  }
+
+  ion-button.Followbn{
+    background-color:var(--ion-color-funaprimary);
+    border-radius: 15px;
+    margin-left: 10px;
+    color: var(--ion-color-funacomplemen0-contrast);
+  }

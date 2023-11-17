@@ -27,6 +27,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
     siteKey="YOUR_SITE_KEY"
   ></re-captcha>`,
 })
+
 export class SignupPage implements OnInit {
   constructor(
     private http: HttpClient,
@@ -34,6 +35,7 @@ export class SignupPage implements OnInit {
     private navigation: NavController,
     private storage: Storage
   ) {}
+
   image: any;
   test: any;
   newUser: newUser = {
@@ -111,10 +113,6 @@ export class SignupPage implements OnInit {
       this.newUser.profilePicture = image.dataUrl;
       this.test = image;
       console.log(this.newUser.profilePicture);
-      // const blob = this.dataURLtoBlob(this.newUser.profilePicture as string);
-      // const url = await this.uploadPicture(blob, image);
-      // console.log(url);
-      // this.newUser.profilePicture = url;
     } catch (error) {
       console.log(error);
     }
@@ -188,6 +186,7 @@ export class SignupPage implements OnInit {
         .then((alert) => alert.present());
       return;
     }
+
     if (!this.newUser.captchaResponse) {
       this.alert
         .create({
@@ -198,6 +197,7 @@ export class SignupPage implements OnInit {
         .then((alert) => alert.present());
       return;
     }
+    
     const blob = this.dataURLtoBlob(this.newUser.profilePicture as string);
     const url = await this.uploadPicture(blob, this.test);
     console.log(url);

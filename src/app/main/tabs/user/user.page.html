@@ -1,9 +1,80 @@
-<ion-toolbar>
-<ion-button slot="start" fill="clear">
-      <ion-button color="funaprimary" class="backbtn" routerLink="/main/tabs/home" routerDirection="back"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear">
+      <ion-button
+        color="funaprimary"
+        class="backbtn"
+        routerLink="/main/tabs/home"
+        routerDirection="back"
+        ><ion-icon name="arrow-back-outline"></ion-icon
+      ></ion-button>
+    </ion-button>
+
+    <ion-item lines="none">
+      <p>Post:</p>
+      <p>100</p>
+    </ion-item>
+
+    <ion-buttons fill="clear" slot="end">
+      <ion-button
+        color="funaprimary"
+        class="User-options-btn"
+        (click)="presentActionSheet()"
+      >
+        <ion-icon name="cog-outline"></ion-icon>
       </ion-button>
-</ion-toolbar>
+    </ion-buttons>
 
-      
- 
+    <ion-buttons fill="clear" slot="end">
+      <ion-button color="funaprimary" class="User-options-btn">
+        <ion-icon name="options"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content [scrollY]="false">
+  <div>
+    <ion-grid [fixed]="true">
+      <ion-card>
+        <ion-avatar class="avatarUser">
+          <ion-img
+            src="https://estaticos-cdn.sport.es/clip/0c9177bb-182c-4db2-9663-d5e01821f9a9_alta-libre-aspect-ratio_default_0.jpg"
+          ></ion-img>
+        </ion-avatar>
+        <ion-card-header>
+          <ion-card-title>andres Alvarez</ion-card-title>
+          <ion-card-subtitle class="userName" color="funacomplemen0"
+            >@radsylph</ion-card-subtitle
+          >
+        </ion-card-header>
+        <ion-card-content>
+          Here's a small text description for the card content. Nothing more,
+          nothing less.
+        </ion-card-content>
+        <ion-button class="Followbn_edit" fill="solid" color="funaprimary"
+          >Follow</ion-button
+        >
+
+        <div class="User-statics-container">
+          <ion-grid [fixed]="true">
+            <ion-row>
+              <ion-col size="auto" class="UserStats">
+                <ion-item lines="none">
+                  <p>Followers:</p>
+                  <p>200</p>
+                </ion-item>
+              </ion-col>
+              <ion-col size="auto" class="UserStats">
+                <ion-item lines="none">
+                  <p>Following:</p>
+                  <p>300</p>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-card>
+    </ion-grid>
+  </div>
+</ion-content>

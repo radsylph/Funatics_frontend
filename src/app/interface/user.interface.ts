@@ -7,6 +7,7 @@ export interface newUser {
   repeat_password: string;
   profilePicture: string | undefined;
   captchaResponse: string | undefined;
+  _id?: any;
 }
 
 export interface existingUser {
