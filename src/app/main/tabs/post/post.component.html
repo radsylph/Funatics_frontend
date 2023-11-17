@@ -4,61 +4,12 @@
       <ion-button
         color="funaprimary"
         class="backbtn"
-        routerLink="/main/tabs/home"
-        routerDirection="back"
+        (click)="goBack()"
         ><ion-icon name="arrow-back-outline"></ion-icon
       ></ion-button>
     </ion-button>
   </ion-toolbar>
 </ion-header>
-<!-- 
- <ion-content [fullscreen]="true">
-  <div id="container">
-      <ion-list>
-          <ion-item >
-              <ion-row class="wrapper_principal">
-                  <ion-col size="2">
-                      <ion-avatar class="avatar_principal"  routerLink="/main/tabs/user">
-                          <ion-img src="https://wh40k.lexicanum.com/mediawiki/images/thumb/a/a6/LionReturn.jpg/250px-LionReturn.jpg" ></ion-img>
-                      </ion-avatar>
-                  </ion-col>
-                  <ion-col size="10">
-                      <ion-row class="tweet-info_principal">
-                      <ion-col size="12">
-                          <span class="user">lionel jhonson</span>
-                          <span class="handle">@Thelion</span>
-                          <span class="handle">UUUUUUUU</span>
-                      </ion-col>
-                      </ion-row>
-                      <ion-row>
-                          <ion-col size="12">
-                              <div >despues de mucho tiempo, vuelvo a la santa terra para protegerla y reencontrarme con mi hermano, cuando voy a verlo me encuento con esto!!!. que vaina es esta!!!</div>
-                              <img class="preview-img_principal" src="https://cd14.pikabu.monster/post_img/2023/09/17/10/1694967869177054853.webp" alt="">
-                          </ion-col>
-                          <ion-grid [fixed]="true">
-                            <ion-row>
-                              <ion-col class="bottonbtn_principal"
-                                ><ion-icon name="heart-outline"></ion-icon
-                                ><label class="count" ></label
-                              ></ion-col>
-                              <ion-col class="bottonbtn_principal"
-                                ><ion-icon name="chatbox-outline"></ion-icon
-                                ><label class="count" ></label
-                              ></ion-col>
-                              <ion-col class="bottonbtn_principal">
-                                <ion-button fill="clear" >
-                                  <ion-icon class="OptTwits" name="ellipsis-vertical"></ion-icon>
-                                </ion-button>
-                              </ion-col>
-                            </ion-row>
-                          </ion-grid>
-                      </ion-row>
-                  </ion-col>
-              </ion-row>
-          </ion-item>
-      </ion-list>
-  </div>
-</ion-content>  -->
 
 <ion-content [scrollY]="false">
   <div id="container" class="ion-content-scroll-host">
@@ -92,12 +43,18 @@
             </ion-col>
             <ion-grid [fixed]="true">
               <ion-row>
-                <ion-col class="bottonbtn"
-                  ><ion-icon
-                    [name]="LikeToggleIcon"
-                    (click)="toggleLike()"
-                  ></ion-icon
-                  ><label class="count" [innerHTML]="Tweet.likes"></label
+                <ion-col class="bottonbtn">
+                  <ion-icon
+                    *ngIf="Tweet.isLiked === true"
+                    name="flame"
+                    (click)="toggleLike(Tweet, Tweet._id)"
+                  ></ion-icon>
+                  <ion-icon
+                    *ngIf="Tweet.isLiked === false"
+                    name="flame-outline"
+                    (click)="toggleLike(Tweet, Tweet._id)"
+                  ></ion-icon>
+                  <label class="count" [innerHTML]="Tweet.likes"></label
                 ></ion-col>
                 <ion-col class="bottonbtn"
                   ><ion-icon name="chatbox-outline"></ion-icon
@@ -118,6 +75,78 @@
           </ion-row>
         </ion-col>
       </ion-row>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-content [scrollY]="false">
+  <div id="container" class="ion-content-scroll-host">
+    <ion-list>
+      <ion-item *ngFor="let comment of comments">
+        <ion-row class="wrapper">
+          <ion-col size="2" (click)="viewUser(Tweet.owner._id)">
+            <ion-avatar *ngIf="comment.owner.profilePicture === 'image.png'">
+              <ion-img src="../../../../assets/img/blank_user.png"></ion-img>
+            </ion-avatar>
+            <ion-avatar *ngIf="comment.owner.profilePicture != 'image.png'">
+              <ion-img [src]="comment.owner.profilePicture"></ion-img>
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="10">
+            <ion-row class="tweet-info">
+              <ion-col size="12">
+                <span class="user">{{ comment.owner.name }}</span>
+                <span class="handle">@{{ comment.owner.username }}</span>
+                <span>
+                  Created at: {{ comment.createdAt | date : "short" }}</span
+                >
+                <span *ngIf="comment.edited"> Edited</span>
+                <span *ngIf="comment.edited" class="handle">
+                  {{ comment.updatedAt | date : "short" }}</span
+                >
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <div [innerHtml]="comment.title"></div>
+                <div [innerHtml]="comment.content"></div>
+                <img class="preview-img" [src]="comment.image" alt="" />
+              </ion-col>
+              <ion-grid [fixed]="true">
+                <ion-row>
+                  <ion-col class="bottonbtn">
+                    <ion-icon
+                      *ngIf="comment.isLiked === true"
+                      name="flame"
+                      (click)="toggleLike(comment, comment._id)"
+                    ></ion-icon>
+                    <ion-icon
+                      *ngIf="comment.isLiked === false"
+                      name="flame-outline"
+                      (click)="toggleLike(comment, comment._id)"
+                    ></ion-icon>
+                    <label class="count" [innerHTML]="comment.likes"></label
+                  ></ion-col>
+                  <ion-col class="bottonbtn"
+                    ><ion-icon name="chatbox-outline"></ion-icon
+                    ><label class="count" [innerHTML]="comment.comments"></label
+                  ></ion-col>
+                  <ion-col>
+                    <div *ngIf="ownerToken === comment.owner._id">
+                      <ion-button fill="clear">
+                        <ion-icon
+                          class="OptTwits"
+                          name="ellipsis-vertical"
+                        ></ion-icon>
+                      </ion-button>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-item>
     </ion-list>
   </div>
 </ion-content>

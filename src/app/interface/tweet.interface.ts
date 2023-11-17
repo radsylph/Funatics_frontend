@@ -26,3 +26,4 @@ export interface CreateTweetInterface {
   content: string;
   image?: string;
 }
+

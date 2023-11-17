@@ -3,11 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { TweetInterface } from 'src/app/interface/tweet.interface';
 import { AlertController } from '@ionic/angular';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 import { NavController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
-import { newUser } from 'src/app/interface/user.interface';
+import { userProfile } from 'src/app/interface/user.interface';
 
 @Component({
   selector: 'app-home',
@@ -19,15 +17,13 @@ export class HomePage {
   ownerToken: any;
   LikeToggleIcon = 'flame-outline';
   likes: any;
-  User: newUser = {
+  User: userProfile = {
     name: '',
     lastname: '',
     username: '',
-    email: '',
-    password: '',
-    repeat_password: '',
     profilePicture: '',
-    captchaResponse: '',
+    _id: '',
+    
   };
 
   constructor(
@@ -67,29 +63,6 @@ export class HomePage {
         .then((alert) => alert.present());
     }
   }
-
-  // async getLikes(tweet: any) {
-  //   try {
-  //     this.http
-  //       .get(`https://funaticsbackend-production.up.railway.app/funa/like`)
-  //       .subscribe((res: any) => {
-  //         this.likes = res.likes;
-  //         console.log('test' + res);
-  //         this.likes.map((like: any) => {
-  //           console.log(like);
-  //           if (like.owner == this.ownerToken) {
-  //             console.log('liked');
-  //             tweet.LikeToggleIcon = 'flame';
-  //           } else {
-  //             console.log('unliked');
-  //             tweet.LikeToggleIcon = 'flame-outline';
-  //           }
-  //         });
-  //       });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
   async EditTweet(id: any) {
     const actionSheet = await this.actionSheetCtrl.create({
@@ -164,43 +137,41 @@ export class HomePage {
   }
 
   async ngOnInit() {
-    this.http
-      .get('https://funaticsbackend-production.up.railway.app/funa/get')
-      .pipe(
-        catchError((error) => {
-          console.log(error.status);
-          if (error.status == 500) {
-            this.deleteToken();
-            this.alert
-              .create({
-                header: 'Session terminated',
-                message: 'Please login again',
-                buttons: ['OK'],
-              })
-              .then((alert) => alert.present());
-            this.navigation.navigateForward('/login');
-          } else if (error.status == 401) {
-            this.alert
-              .create({
-                header: 'Unauthorized',
-                message: 'Please login to see this page',
-                buttons: ['OK'],
-              })
-              .then((alert) => alert.present());
-            this.navigation.navigateForward('/login');
-          }
-          return throwError(error);
-        })
-      )
-      .subscribe((res: any) => {
-        console.log(res);
-        this.ownerToken = res.OwnerInitial;
-        this.AllTweets = res.tweets;
-        this.AllTweets.map((tweet: any) => {
-          tweet.LikeToggleIcon = 'flame-outline';
-          return tweet;
+    try {
+      this.http
+        .get('https://funaticsbackend-production.up.railway.app/funa/get')
+        .subscribe((res: any) => {
+          console.log(res);
+          this.ownerToken = res.OwnerInitial;
+          this.AllTweets = res.tweets;
+          this.AllTweets.map((tweet: any) => {
+            tweet.LikeToggleIcon = 'flame-outline';
+            return tweet;
+          });
         });
-      });
+    } catch (error: any) {
+      console.log(error.status);
+      if (error.status == 500) {
+        this.deleteToken();
+        this.alert
+          .create({
+            header: 'Session terminated',
+            message: 'Please login again',
+            buttons: ['OK'],
+          })
+          .then((alert) => alert.present());
+        this.navigation.navigateForward('/login');
+      } else if (error.status == 401) {
+        this.alert
+          .create({
+            header: 'Unauthorized',
+            message: 'Please login to see this page',
+            buttons: ['OK'],
+          })
+          .then((alert) => alert.present());
+        this.navigation.navigateForward('/login');
+      }
+    }
     Preferences.set({ key: 'Ownertoken', value: this.ownerToken });
     await this.setToken();
     try {
@@ -222,9 +193,10 @@ export class HomePage {
     this.navigation.navigateForward('/main/tabs/post');
   }
 
-  viewUser(_id: string) {
-    console.log('hla user');
-    console.log(_id);
+  async viewUser(_id: string) {
+    // console.log('hla user');
+    // console.log(_id);
+    await Preferences.set({ key: 'userId', value: _id });
     this.navigation.navigateForward('/main/tabs/user');
   }
 

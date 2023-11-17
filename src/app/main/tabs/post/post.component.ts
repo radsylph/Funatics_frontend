@@ -35,6 +35,7 @@ export class PostComponent implements OnInit {
   };
   ownerToken: any;
 
+  comments: TweetInterface[] = [];
   constructor(
     private http: HttpClient,
     private alert: AlertController,
@@ -47,6 +48,10 @@ export class PostComponent implements OnInit {
     await Preferences.remove({ key: 'token' });
   }
 
+  goBack() {
+    this.navigation.back();
+  }
+
   async getToken() {
     await Preferences.get({ key: 'Ownertoken' }).then((res) => {
       this.ownerToken = res.value;
@@ -54,11 +59,34 @@ export class PostComponent implements OnInit {
     console.log('owner: ' + this.ownerToken);
   }
 
-  toggleLike(): void {
-    if (this.LikeToggleIcon == 'flame-outline') {
-      this.LikeToggleIcon = 'flame';
-    } else {
-      this.LikeToggleIcon = 'flame-outline';
+  async toggleLike(tweet: any, _id: any) {
+    try {
+      await this.http
+        .put(
+          `https://funaticsbackend-production.up.railway.app/funa/like/${_id}`,
+          {}
+        )
+        .subscribe((res: any) => {
+          console.log(res.message);
+          if (res.message === 'Post unliked') {
+            console.log('unliked');
+            tweet.likes--;
+            tweet.isLiked = false;
+          } else if (res.message === 'Post liked') {
+            console.log('liked');
+            tweet.likes++;
+            tweet.isLiked = true;
+          }
+        });
+    } catch (error) {
+      console.log(error);
+      this.alert
+        .create({
+          header: 'Error',
+          message: 'Something went wrong with the like',
+          buttons: ['OK'],
+        })
+        .then((alert) => alert.present());
     }
   }
 
@@ -79,7 +107,8 @@ export class PostComponent implements OnInit {
         )
         .subscribe((res: any) => {
           console.log(res);
-          this.Tweet = res.tweet;
+          this.Tweet = res.tweetsWithIsLiked;
+          console.log(this.Tweet);
         });
     } catch (error: any) {
       console.log(error.status);
@@ -104,6 +133,20 @@ export class PostComponent implements OnInit {
           .then((alert) => alert.present());
         this.navigation.navigateForward('/login');
       }
+    }
+
+    try {
+      await this.http
+        .get(
+          `https://funaticsbackend-production.up.railway.app/funa/comments/${id.value}`
+        )
+        .subscribe((res: any) => {
+          console.log(res);
+          this.comments = res.comments;
+          // this.comments = res.tweetsWithIsLiked;
+        });
+    } catch (error) {
+      console.log(error);
     }
   }
 }

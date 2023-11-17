@@ -14,3 +14,15 @@ export interface existingUser {
   user_info: string;
   password: string;
 }
+
+export interface userProfile {
+  name: string;
+  lastname: string;
+  username: string;
+  email?: string;
+  profilePicture: string;
+  _id: string;
+  bio?: string;
+  followers?: number;
+  following?: number;
+}

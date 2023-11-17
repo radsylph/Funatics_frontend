@@ -9,12 +9,6 @@
         ><ion-icon name="arrow-back-outline"></ion-icon
       ></ion-button>
     </ion-button>
-
-    <ion-item lines="none">
-      <p>Post:</p>
-      <p>100</p>
-    </ion-item>
-
     <ion-buttons fill="clear" slot="end">
       <ion-button
         color="funaprimary"
@@ -37,21 +31,29 @@
   <div>
     <ion-grid [fixed]="true">
       <ion-card>
-        <ion-avatar class="avatarUser">
-          <ion-img
-            src="https://estaticos-cdn.sport.es/clip/0c9177bb-182c-4db2-9663-d5e01821f9a9_alta-libre-aspect-ratio_default_0.jpg"
-          ></ion-img>
+        <ion-avatar
+          class="avatarUser"
+          *ngIf="User.profilePicture === 'image.png'"
+        >
+          <ion-img src="../../../../assets/img/blank_user.png"></ion-img>
+        </ion-avatar>
+        <ion-avatar
+          class="avatarUser"
+          *ngIf="User.profilePicture != 'image.png'"
+        >
+          <ion-img [src]="User.profilePicture"></ion-img>
         </ion-avatar>
         <ion-card-header>
-          <ion-card-title>andres Alvarez</ion-card-title>
+          <ion-card-title
+            ><span class="user"
+              >{{User.name}} {{User.lastname}}</span
+            ></ion-card-title
+          >
           <ion-card-subtitle class="userName" color="funacomplemen0"
-            >@radsylph</ion-card-subtitle
+            ><span class="user">@{{User.username}}</span></ion-card-subtitle
           >
         </ion-card-header>
-        <ion-card-content>
-          Here's a small text description for the card content. Nothing more,
-          nothing less.
-        </ion-card-content>
+        <ion-card-content> {{User.bio}} </ion-card-content>
         <ion-button class="Followbn_edit" fill="solid" color="funaprimary"
           >Follow</ion-button
         >
@@ -62,13 +64,13 @@
               <ion-col size="auto" class="UserStats">
                 <ion-item lines="none">
                   <p>Followers:</p>
-                  <p>200</p>
+                  <p>{{User.followers}}</p>
                 </ion-item>
               </ion-col>
               <ion-col size="auto" class="UserStats">
                 <ion-item lines="none">
                   <p>Following:</p>
-                  <p>300</p>
+                  <p>{{User.following}}</p>
                 </ion-item>
               </ion-col>
             </ion-row>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
+import { Preferences } from '@capacitor/preferences';
+import { HttpClient } from '@angular/common/http';
+import { userProfile, newUser } from 'src/app/interface/user.interface';
 
 @Component({
   selector: 'app-user',
@@ -7,8 +10,17 @@ import { ActionSheetController } from '@ionic/angular';
   styleUrls: ['./user.page.scss'],
 })
 export class UserPage implements OnInit {
-
-  constructor(private actionSheetCtrl: ActionSheetController) { }
+  constructor(
+    private actionSheetCtrl: ActionSheetController,
+    private http: HttpClient
+  ) {}
+  User: userProfile = {
+    name: '',
+    lastname: '',
+    username: '',
+    profilePicture: '',
+    _id: '',
+  };
 
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
@@ -27,6 +39,13 @@ export class UserPage implements OnInit {
             action: 'Edit',
           },
         },
+        {
+          text: 'change password',
+          role: 'Change password',
+          data: {
+            action: 'Edit',
+          },
+        },
       ],
     });
 
@@ -34,6 +53,14 @@ export class UserPage implements OnInit {
   }
 
   ngOnInit() {
+    try {
+      this.http
+        .get('https://funaticsbackend-production.up.railway.app/auth/getUser')
+        .subscribe((res: any) => {
+          console.log(res);
+          this.User = res.user;
+          console.log(this.User);
+        });
+    } catch (error) {}
   }
-
 }
