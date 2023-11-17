@@ -3,6 +3,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { Preferences } from '@capacitor/preferences';
 import { HttpClient } from '@angular/common/http';
 import { userProfile, newUser } from 'src/app/interface/user.interface';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-user',
@@ -12,7 +13,8 @@ import { userProfile, newUser } from 'src/app/interface/user.interface';
 export class UserPage implements OnInit {
   constructor(
     private actionSheetCtrl: ActionSheetController,
-    private http: HttpClient
+    private http: HttpClient,
+    private navigation: NavController
   ) {}
   User: userProfile = {
     name: '',
@@ -38,6 +40,9 @@ export class UserPage implements OnInit {
           data: {
             action: 'Edit',
           },
+          handler: () => {
+            this.singOff();
+          },
         },
         {
           text: 'change password',
@@ -61,6 +66,13 @@ export class UserPage implements OnInit {
           this.User = res.user;
           console.log(this.User);
         });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async singOff() {
+    await Preferences.remove({ key: 'token' });
+    this.navigation.navigateForward('/login');
   }
 }
