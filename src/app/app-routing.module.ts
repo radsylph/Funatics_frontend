@@ -27,6 +27,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./main/main.module').then((m) => m.MainPageModule),
   },
+
 ];
 
 @NgModule({

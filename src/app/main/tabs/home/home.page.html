@@ -23,7 +23,11 @@
         <ion-col class="header"> </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-segment [scrollable]="true" value="For_You">
+    <ion-segment
+      [scrollable]="true"
+      value="For_You"
+      (ionChange)="changeSection($event)"
+    >
       <ion-segment-button value="For_You"> For You </ion-segment-button>
       <ion-segment-button value="Following"> Following </ion-segment-button>
     </ion-segment>
@@ -84,7 +88,10 @@
                     <label class="count" [innerHTML]="Tweet.likes"></label
                   ></ion-col>
                   <ion-col class="bottonbtn"
-                    ><ion-icon name="chatbox-outline"></ion-icon
+                    ><ion-icon
+                      name="chatbox-outline"
+                      (click)="makeComment(Tweet._id)"
+                    ></ion-icon
                     ><label class="count" [innerHTML]="Tweet.comments"></label
                   ></ion-col>
                   <div *ngIf="ownerToken === Tweet.owner._id">

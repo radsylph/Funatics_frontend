@@ -6,6 +6,8 @@ import { catchError } from 'rxjs/operators';
 import { identity, throwError } from 'rxjs';
 import { NavController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-post',
@@ -39,7 +41,9 @@ export class PostComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private alert: AlertController,
-    private navigation: NavController
+    private navigation: NavController,
+    private router: Router,
+    private actionSheetCtrl: ActionSheetController
   ) {}
 
   LikeToggleIcon = 'flame-outline';
@@ -50,6 +54,86 @@ export class PostComponent implements OnInit {
 
   goBack() {
     this.navigation.back();
+  }
+
+  async deleteTweet(id: any) {
+    try {
+      this.http
+        .delete(
+          `https://funaticsbackend-production.up.railway.app/funa/delete/${id}`
+        )
+        .subscribe((res: any) => {
+          console.log(res);
+          this.alert
+            .create({
+              header: 'Tweet deleted',
+              message: 'Your tweet has been deleted',
+              buttons: ['OK'],
+            })
+            .then((alert) => alert.present());
+          this.ngOnInit();
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async makeComment(id:any) {
+    await Preferences.set({ key: 'tweetId', value: id });
+    this.navigation.navigateForward('/main/tabs/create-comment');
+  }
+
+  async viewPost(_id: string) {
+    console.log('hla post');
+    console.log(_id);
+    await Preferences.set({ key: 'tweetId', value: _id });
+    this.ngOnInit();
+  }
+
+  async EditTweet(id: any) {
+    const actionSheet = await this.actionSheetCtrl.create({
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.alert
+              .create({
+                header: 'Delete tweet',
+                message: 'Are you sure you want to delete this tweet?',
+                buttons: [
+                  {
+                    text: 'Yes',
+                    handler: () => {
+                      this.deleteTweet(id);
+                    },
+                  },
+                  {
+                    text: 'No',
+                    handler: () => {},
+                  },
+                ],
+              })
+              .then((alert) => alert.present());
+          },
+        },
+        {
+          text: 'Edit',
+          role: 'modification',
+          handler: () => {
+            console.log('Edit clicked');
+            Preferences.set({ key: 'tweetId', value: id });
+            this.navigation.navigateForward('/main/tabs/edit');
+          },
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {},
+        },
+      ],
+    });
+    await actionSheet.present();
   }
 
   async getToken() {
@@ -113,7 +197,6 @@ export class PostComponent implements OnInit {
     } catch (error: any) {
       console.log(error.status);
       if (error.status == 500) {
-        console.log('hola');
         this.deleteToken();
         this.alert
           .create({
@@ -142,7 +225,7 @@ export class PostComponent implements OnInit {
         )
         .subscribe((res: any) => {
           console.log(res);
-          this.comments = res.comments;
+          this.comments = res.commentsWithIsLiked;
           // this.comments = res.tweetsWithIsLiked;
         });
     } catch (error) {

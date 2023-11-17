@@ -10,34 +10,4 @@ import { PostRoutingModule } from './post-routing.module';
   declarations: [PostComponent],
   imports: [CommonModule, IonicModule, FormsModule, PostRoutingModule],
 })
-export class PostModule {
-//constructor(
-   // private actionSheetCtrl: ActionSheetController
-//    ) {}
-
- // async presentActionSheet() {
-   // const actionSheet = await this.actionSheetCtrl.create({
-     // buttons: [
-       // {
-         // text: 'Delete',
-         // role: 'destructive',
-         // data: {
-         //   action: 'delete',
-         // },
-       // },
-       // {
-       //   text: 'Edit',
-       //   role: 'modification',
-       //   data: {
-       //     action: 'Edit',
-       //   },
-       // },
-     // ],
-   // });
-
-   // await actionSheet.present();
-  //}
-  
-    
-
-}
+export class PostModule {}

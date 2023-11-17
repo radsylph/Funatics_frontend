@@ -12,13 +12,13 @@ import {
   uploadBytes,
 } from '@angular/fire/storage';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-
+import { Preferences } from '@capacitor/preferences';
 @Component({
-  selector: 'app-create',
-  templateUrl: './create.page.html',
-  styleUrls: ['./create.page.scss'],
+  selector: 'app-create-comment',
+  templateUrl: './create-comment.component.html',
+  styleUrls: ['./create-comment.component.scss'],
 })
-export class CreatePage implements OnInit {
+export class CreateCommentComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private alert: AlertController,
@@ -26,13 +26,21 @@ export class CreatePage implements OnInit {
     private storage: Storage
   ) {}
 
-  newTweet: CreateTweetInterface = {
+  newComment: CreateTweetInterface = {
     title: '',
     content: '',
     image: '',
   };
 
   test: any;
+
+  ngOnInit() {
+    this.newComment = {
+      title: '',
+      content: '',
+      image: '',
+    };
+  }
 
   async takePicture() {
     try {
@@ -45,9 +53,9 @@ export class CreatePage implements OnInit {
         width: 500,
       });
       console.log(image);
-      this.newTweet.image = image.dataUrl;
+      this.newComment.image = image.dataUrl;
       this.test = image;
-      console.log(this.newTweet.image);
+      console.log(this.newComment.image);
     } catch (error) {
       console.log(error);
     }
@@ -81,45 +89,29 @@ export class CreatePage implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.newTweet = {
-      title: '',
-      content: '',
-      image: '',
-    };
-  }
+  async createComment() {
+    const id = await Preferences.get({ key: 'tweetId' });
 
-  async CreatePost() {
-    if (this.newTweet.title == '') {
-      this.alert
-        .create({
-          header: 'Error',
-          message: 'You need to have a title atlas',
-          buttons: ['Ok'],
-        })
-        .then((res) => {
-          res.present();
-        });
-    }
     try {
-      const blob = this.dataURLtoBlob(this.newTweet.image as string);
+      const blob = this.dataURLtoBlob(this.newComment.image as string);
       const url = await this.uploadPicture(blob, this.test);
       console.log(url);
-      this.newTweet.image = url;
+      this.newComment.image = url;
     } catch (error) {
       console.log(error);
     }
+    console.log(this.newComment);
     try {
       await this.http
         .post(
-          'https://funaticsbackend-production.up.railway.app/funa/create',
-          this.newTweet
+          `https://funaticsbackend-production.up.railway.app/funa/comment/${id.value}`,
+          this.newComment
         )
         .subscribe((res: any) => {
           this.alert
             .create({
               header: 'Success',
-              message: 'Your tweet has been created',
+              message: 'Your comment has been created',
               buttons: ['Ok'],
             })
             .then((res) => {

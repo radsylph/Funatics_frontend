@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/main/tabs/home"
+        icon="close-outline"
+        color="funaprimary"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title>Comment a post</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="createComment()">Comment</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <ion-col size="3">
+        <ion-avatar>
+          <ion-img
+            src="https://estaticos-cdn.sport.es/clip/0c9177bb-182c-4db2-9663-d5e01821f9a9_alta-libre-aspect-ratio_default_0.jpg"
+          ></ion-img>
+        </ion-avatar>
+      </ion-col>
+      <ion-col size="9">
+        <ion-item lines="none">
+          <ion-input
+            placeholder="Title"
+            [(ngModel)]="newComment.title"
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item lines="none">
+          <ion-textarea
+            placeholder="Content"
+            [autoGrow]="true"
+            [(ngModel)]="newComment.content"
+          ></ion-textarea>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-col>
+      <ion-item lines="none">
+        <ion-button
+          color="funaprimary"
+          class="photobtn"
+          expand="block"
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+          "
+          (click)="takePicture()"
+        >
+          <ion-icon name="camera" style="width: 100%; height: 100%"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-col>
+    <ion-col>
+      <ion-item lines="none">
+        <ion-img
+          class="profile-picture"
+          [src]="newComment.image"
+          *ngIf="newComment.image"
+        ></ion-img>
+      </ion-item>
+    </ion-col>
+  </ion-grid>
+</ion-content>

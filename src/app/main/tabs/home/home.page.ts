@@ -23,7 +23,6 @@ export class HomePage {
     username: '',
     profilePicture: '',
     _id: '',
-    
   };
 
   constructor(
@@ -65,6 +64,8 @@ export class HomePage {
   }
 
   async EditTweet(id: any) {
+    console.log(id);
+    console.log('funciona');
     const actionSheet = await this.actionSheetCtrl.create({
       buttons: [
         {
@@ -137,6 +138,51 @@ export class HomePage {
   }
 
   async ngOnInit() {
+    await this.LoadTweets();
+    Preferences.set({ key: 'Ownertoken', value: this.ownerToken });
+    await this.setToken();
+    try {
+      this.http
+        .get(`https://funaticsbackend-production.up.railway.app/auth/getUser`)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.User = res.user;
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  viewPost(_id: string) {
+    console.log(_id);
+    console.log('hola');
+    Preferences.set({ key: 'tweetId', value: _id });
+    this.navigation.navigateForward('/main/tabs/post');
+    this.ngOnInit();
+  }
+
+  async viewUser(_id: string) {
+    // console.log('hla user');
+    // console.log(_id);
+    await Preferences.set({ key: 'userId', value: _id });
+    this.navigation.navigateForward('/main/tabs/user');
+  }
+
+  async setToken() {
+    await Preferences.set({ key: 'Ownertoken', value: this.ownerToken });
+    console.log('owner: ' + this.ownerToken);
+  }
+
+  changeSection(ev: any) {
+    console.log('se ha cambiado a ' + ev.detail.value);
+    if (ev.detail.value === 'For_You') {
+      this.LoadTweets();
+    } else if (ev.detail.value === 'Following') {
+      this.loadFollowersTweets();
+    }
+  }
+
+  async LoadTweets() {
     try {
       this.http
         .get('https://funaticsbackend-production.up.railway.app/funa/get')
@@ -172,36 +218,50 @@ export class HomePage {
         this.navigation.navigateForward('/login');
       }
     }
-    Preferences.set({ key: 'Ownertoken', value: this.ownerToken });
-    await this.setToken();
+  }
+
+  async loadFollowersTweets() {
     try {
       this.http
-        .get(`https://funaticsbackend-production.up.railway.app/auth/getUser`)
+        .get(
+          'https://funaticsbackend-production.up.railway.app/funa/followersTweets'
+        )
         .subscribe((res: any) => {
           console.log(res);
-          this.User = res.user;
+          this.ownerToken = res.OwnerInitial;
+          this.AllTweets = res.tweetsWithIsLiked;
+          this.AllTweets.map((tweet: any) => {
+            tweet.LikeToggleIcon = 'flame-outline';
+            return tweet;
+          });
         });
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.log(error.status);
+      if (error.status == 500) {
+        this.deleteToken();
+        this.alert
+          .create({
+            header: 'Session terminated',
+            message: 'Please login again',
+            buttons: ['OK'],
+          })
+          .then((alert) => alert.present());
+        this.navigation.navigateForward('/login');
+      } else if (error.status == 401) {
+        this.alert
+          .create({
+            header: 'Unauthorized',
+            message: 'Please login to see this page',
+            buttons: ['OK'],
+          })
+          .then((alert) => alert.present());
+        this.navigation.navigateForward('/login');
+      }
     }
   }
 
-  async viewPost(_id: string) {
-    console.log(_id);
-    console.log('hola');
-    Preferences.set({ key: 'tweetId', value: _id });
-    this.navigation.navigateForward('/main/tabs/post');
-  }
-
-  async viewUser(_id: string) {
-    // console.log('hla user');
-    // console.log(_id);
-    await Preferences.set({ key: 'userId', value: _id });
-    this.navigation.navigateForward('/main/tabs/user');
-  }
-
-  async setToken() {
-    await Preferences.set({ key: 'Ownertoken', value: this.ownerToken });
-    console.log('owner: ' + this.ownerToken);
+  async makeComment(id: any) {
+    await Preferences.set({ key: 'tweetId', value: id });
+    this.navigation.navigateForward('/main/tabs/create-comment');
   }
 }
