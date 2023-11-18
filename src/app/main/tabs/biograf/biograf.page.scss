@@ -1,0 +1,83 @@
+ion-toolbar{
+    --border-width: 0 !important;
+}
+
+
+.header-md::after{
+    background: none !important;
+}
+
+
+.backbtn{
+    background-color:var(--ion-color-funaprimary);
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+
+
+ion-avatar{
+    margin: auto;
+}
+
+ion-avatar.avatarUser{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.User-statics-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    size: 3px;
+}
+
+.User-info-container{
+    display: flex;
+}
+
+.User-info{
+    
+display: flex;
+align-items: center;
+justify-content: center;
+
+  
+}
+
+.User-profile-picture{
+   display: flex;
+   align-items: center;
+}
+
+.User-options-btn{
+    background-color:var(--ion-color-funaprimary);
+    color: var(--ion-color-funaprimary-contrast);
+    width: 35px;
+    height: 35px;
+    font-size: 12px;
+    border-radius: 20%;
+    margin-left: 7px;
+    margin-right: 7px;
+    align-items: center;
+} 
+
+.userName{
+    color: var(--ion-color-funaprimary);
+}
+
+ion-button.Followbn_edit{
+    background-color:var(--ion-color-funaprimary);
+    border-radius: 15px;
+    margin-left: 15px;
+    color: var(--ion-color-funacomplemen0-contrast);
+  }
+
+ion-col.UserStats{
+  text-align: center;
+}
+
+ion-card-content{
+    color: #fff;
+}

@@ -1,0 +1,84 @@
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-button slot="start" fill="clear">
+      <ion-button
+        color="funaprimary"
+        class="backbtn"
+        routerLink="/main/tabs/home"
+        routerDirection="back"
+        ><ion-icon name="arrow-back-outline"></ion-icon
+      ></ion-button>
+    </ion-button>
+
+    <ion-buttons fill="clear" slot="end">
+      <ion-button
+        color="funaprimary"
+        class="User-options-btn"
+        (click)="updateUser()"
+      >
+        <ion-icon name="checkmark-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="false">
+  <div>
+    <ion-grid [fixed]="true">
+      <ion-card>
+        <ion-avatar
+          class="avatarUser"
+          *ngIf="User.profilePicture === 'image.png'"
+          (click)="takePicture()"
+        >
+          <ion-img src="../../../../assets/img/blank_user.png"></ion-img>
+        </ion-avatar>
+        <ion-avatar
+          class="avatarUser"
+          *ngIf="User.profilePicture != 'image.png'"
+          (click)="takePicture()"
+        >
+          <ion-img [src]="User.profilePicture"></ion-img>
+        </ion-avatar>
+        <ion-card-header>
+          <ion-input
+            label="Name"
+            label-placement="floating"
+            fill="solid"
+            [(ngModel)]="User.name"
+          ></ion-input>
+          <ion-input
+            label="Last Name"
+            label-placement="floating"
+            fill="solid"
+            [(ngModel)]="User.lastname"
+          ></ion-input>
+          <ion-input
+            label="Email"
+            label-placement="floating"
+            fill="solid"
+            [(ngModel)]="User.email"
+          ></ion-input>
+          <ion-card-subtitle class="userName" color="funacomplemen0"
+            ><ion-input
+              label="User Name"
+              label-placement="floating"
+              fill="solid"
+              [(ngModel)]="User.username"
+            ></ion-input
+          ></ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-textarea
+            [autoGrow]="true"
+            label="Description"
+            labelPlacement="floating"
+            [counter]="true"
+            maxlength="200"
+            [(ngModel)]="User.bio"
+          ></ion-textarea>
+        </ion-card-content>
+      </ion-card>
+    </ion-grid>
+  </div>
+</ion-content>

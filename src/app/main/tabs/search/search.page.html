@@ -1,63 +1,140 @@
-<ion-header collapse="fade">  
+<ion-header collapse="fade">
   <ion-toolbar>
-                 
-    <ion-searchbar show-clear-button="always" value="Always Show"></ion-searchbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="auto"
+          ><ion-searchbar
+            show-clear-button="always"
+            [(ngModel)]="searchTerm"
+          ></ion-searchbar
+        ></ion-col>
+        <ion-col>
+          <ion-button
+            color="funaprimary"
+            class="filter"
+            id="open-action-sheet"
+            size="auto"
+            id="present-alert"
+          >
+            <ion-icon class="iconfilter" name="filter-circle"></ion-icon>
+          </ion-button>
+          <ion-alert
+            trigger="present-alert"
+            header="Filter by"
+            [buttons]="alertButtons"
+            [inputs]="alertInputs"
+            (ionAlertDidDismiss)="handleAlertDismiss($event)"
+          ></ion-alert>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-    <ion-segment [scrollable]="true" value="Featured">
-      <ion-segment-button value="Featured">
-        Featured
-      </ion-segment-button>
-      <ion-segment-button value="Less_Prominent">
-        Less Prominent
-      </ion-segment-button>
-      <ion-segment-button value="Most Recent">
-        Most Recent
-      </ion-segment-button>
-      <ion-segment-button value="People">
-        People
-      </ion-segment-button>
-      <ion-segment-button value="Multimedia Content">
-        Multimedia Content
-      </ion-segment-button>
-      <ion-segment-button value="More_News">
-        More News
-      </ion-segment-button>
-      <ion-segment-button value="More_olds">
-        More olds
-      </ion-segment-button>
+    <ion-segment
+      [scrollable]="true"
+      value="Post"
+      (ionChange)="changeSection($event)"
+    >
+      <ion-segment-button value="Post"> Post </ion-segment-button>
+      <ion-segment-button value="People"> People </ion-segment-button>
     </ion-segment>
-        
-  </ion-toolbar>   
+  </ion-toolbar>
 </ion-header>
 
+<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  <ion-refresher-content></ion-refresher-content>
+</ion-refresher>
 <ion-content [fullscreen]="true">
-  <ion-content [scrollY]="false">
-    <div id="container" class="ion-content-scroll-host ">
-        <ion-list>
-            <ion-item *ngFor="let item of items">
-                <ion-row class="wrapper">
-                    <ion-col size="2">
-                        <ion-avatar class="postAvatar" >
-                            <ion-img [src]="item.img" ></ion-img>
-                        </ion-avatar>
-                    </ion-col>
-                    <ion-col size="10">
-                        <ion-row class="tweet-info">
-                        <ion-col size="20">
-                            <span class="user">{{item.user}}</span>
-                            <span class="handle">@{{item.username}}</span>
-                            <ion-button class="Followbn" fill="solid" color="funaprimary">
-                              Follow 
-                            </ion-button>
-                        </ion-col>
+  <div
+    id="container"
+    class="ion-content-scroll-host"
+    *ngIf="actualSecition === 'People'"
+  >
+    <ion-list>
+      <ion-item *ngFor="let user of filteredUsers">
+        <ion-row class="wrapper" (click)="viewUser(user._id)">
+          <ion-col size="2">
+            <ion-avatar class="postAvatar" style="margin-right: 200px">
+              <ion-img [src]="user.profilePicture"></ion-img>
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="10">
+            <ion-row class="tweet-info">
+              <ion-col size="30">
+                <span class="user">{{user.name}}</span>
+                <span class="user">{{user.lastname}}</span>
+              </ion-col>
+              <ion-col size="30">
+                <span class="handle">@{{user.username}}</span>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </div>
 
-                        </ion-row>
-
-                    </ion-col>
-
+  <div
+    id="container"
+    class="ion-content-scroll-host"
+    *ngIf="actualSecition === 'Post'"
+  >
+    <ion-list>
+      <ion-item *ngFor="let Tweet of filteredTweets">
+        <ion-row class="wrapper">
+          <ion-col size="10">
+            <ion-row class="tweet-info" (click)="viewPost(Tweet._id)">
+              <ion-col size="12">
+                <span class="user">{{Tweet.owner.name}}</span>
+                <span class="handle">@{{Tweet.owner.username}}</span>
+                <span> Created at: {{Tweet.createdAt | date:'short'}}</span>
+                <span *ngIf="Tweet.edited"> Edited</span>
+                <span *ngIf="Tweet.edited" class="handle">
+                  {{Tweet.updatedAt | date:"short"}}</span
+                >
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <div [innerHtml]="Tweet.title"></div>
+                <div [innerHtml]="Tweet.content"></div>
+                <img class="preview-img" [src]="Tweet.image" alt="" />
+              </ion-col>
+              <ion-grid [fixed]="true">
+                <ion-row>
+                  <ion-col class="bottonbtn">
+                    <ion-icon
+                      *ngIf="Tweet.isLiked === true"
+                      name="flame"
+                      (click)="toggleLike(Tweet,Tweet._id)"
+                    ></ion-icon>
+                    <ion-icon
+                      *ngIf="Tweet.isLiked === false"
+                      name="flame-outline"
+                      (click)="toggleLike(Tweet,Tweet._id)"
+                    ></ion-icon>
+                    <label class="count" [innerHTML]="Tweet.likes"></label
+                  ></ion-col>
+                  <ion-col class="bottonbtn"
+                    ><ion-icon
+                      name="chatbox-outline"
+                      (click)="makeComment(Tweet._id)"
+                    ></ion-icon
+                    ><label class="count" [innerHTML]="Tweet.comments"></label
+                  ></ion-col>
+                  <div *ngIf="ownerToken === Tweet.owner._id">
+                    <ion-button fill="clear" (click)="EditTweet(Tweet._id)">
+                      <ion-icon
+                        class="OptTwits"
+                        name="ellipsis-vertical"
+                      ></ion-icon>
+                    </ion-button>
+                  </div>
                 </ion-row>
-            </ion-item>
-        </ion-list>
-    </div>
-  </ion-content>
+              </ion-grid>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

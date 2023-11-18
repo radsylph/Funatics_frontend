@@ -1,33 +1,10 @@
 <ion-header collapse="fade">
   <ion-toolbar>
     <ion-button slot="start" fill="clear">
-      <ion-button
-        color="funaprimary"
-        class="backbtn"
-        routerLink="/main/tabs/home"
-        routerDirection="back"
+      <ion-button color="funaprimary" class="backbtn" (click)="goBack()"
         ><ion-icon name="arrow-back-outline"></ion-icon
       ></ion-button>
     </ion-button>
-    <ion-buttons fill="clear" slot="end">
-      <ion-button
-        color="funaprimary"
-        class="User-options-btn"
-        (click)="presentActionSheet()"
-      >
-        <ion-icon name="cog-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
-    <ion-buttons fill="clear" slot="end">
-      <ion-button
-        color="funaprimary"
-        class="User-options-btn"
-        (click)="editUser()"
-      >
-        <ion-icon name="options"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -49,19 +26,41 @@
         </ion-avatar>
         <ion-card-header>
           <ion-card-title
-            ><span class="user"
+            ><span class="user" style="display: flex; justify-content: center"
               >{{User.name}} {{User.lastname}}</span
             ></ion-card-title
           >
-          <ion-card-subtitle class="userName" color="funacomplemen0"
+          <ion-card-subtitle
+            class="userName"
+            color="funacomplemen0"
+            style="display: flex; justify-content: center"
             ><span class="user">@{{User.username}}</span></ion-card-subtitle
           >
         </ion-card-header>
         <ion-card-content> {{User.bio}} </ion-card-content>
-
+        <ion-button
+          class="Followbn_edit"
+          fill="solid"
+          color="funaprimary"
+          expand="block"
+          style="margin: 10px; padding: 10px"
+          *ngIf="User.isFollowing === false"
+          (click)="followUser()"
+          >Follow</ion-button
+        >
+        <ion-button
+          class="Followbn_edit"
+          fill="solid"
+          color="funaprimary"
+          expand="block"
+          style="margin: 10px; padding: 10px"
+          *ngIf="User.isFollowing === true"
+          (click)="followUser()"
+          >UnFollow</ion-button
+        >
         <div class="User-statics-container">
           <ion-grid [fixed]="true">
-            <ion-row>
+            <ion-row style="display: flex; justify-content: center">
               <ion-col size="auto" class="UserStats">
                 <ion-item lines="none">
                   <p>Followers:</p>

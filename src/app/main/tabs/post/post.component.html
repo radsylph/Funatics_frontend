@@ -8,12 +8,17 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollY]="false">
+<ion-content>
   <div id="container" class="ion-content-scroll-host">
     <ion-list>
       <ion-row class="wrapper">
         <ion-col size="2" (click)="viewUser(Tweet.owner._id)">
-          <ion-avatar *ngIf="Tweet.owner.profilePicture === 'image.png'">
+          <ion-avatar
+            *ngIf="
+              Tweet.owner.profilePicture === 'image.png' ||
+              Tweet.owner.profilePicture === ''
+            "
+          >
             <ion-img src="../../../../assets/img/blank_user.png"></ion-img>
           </ion-avatar>
           <ion-avatar *ngIf="Tweet.owner.profilePicture != 'image.png'">
@@ -85,10 +90,19 @@
       <ion-item *ngFor="let comment of comments">
         <ion-row class="wrapper">
           <ion-col size="2" (click)="viewUser(Tweet.owner._id)">
-            <ion-avatar *ngIf="comment.owner.profilePicture === 'image.png'">
+            <ion-avatar
+              *ngIf="
+                comment.owner.profilePicture === 'image.png' ||
+                comment.owner.profilePicture === ''
+              "
+              class="user-avatar"
+            >
               <ion-img src="../../../../assets/img/blank_user.png"></ion-img>
             </ion-avatar>
-            <ion-avatar *ngIf="comment.owner.profilePicture != 'image.png'">
+            <ion-avatar
+              *ngIf="comment.owner.profilePicture != 'image.png'"
+              class="user-avatar"
+            >
               <ion-img [src]="comment.owner.profilePicture"></ion-img>
             </ion-avatar>
           </ion-col>

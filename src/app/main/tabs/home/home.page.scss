@@ -119,3 +119,11 @@ ion-icon.OptTwits{
     flex-direction: column;
     height: 100%;
   }
+
+ion-segment-button::part(indicator-background) {
+    background: #f27a2b;
+  }
+
+  ion-segment-button{
+    --color-checked: #f27a2b;
+  }

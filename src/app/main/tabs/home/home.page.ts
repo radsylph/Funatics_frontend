@@ -162,9 +162,12 @@ export class HomePage {
   }
 
   async viewUser(_id: string) {
-    // console.log('hla user');
-    // console.log(_id);
     await Preferences.set({ key: 'userId', value: _id });
+    this.navigation.navigateForward('/main/tabs/user-withoutconfg');
+  }
+
+  async viewUserConfig() {
+    // await Preferences.set({ key: 'userId', value: _id });
     this.navigation.navigateForward('/main/tabs/user');
   }
 
@@ -224,7 +227,7 @@ export class HomePage {
     try {
       this.http
         .get(
-          'https://funaticsbackend-production.up.railway.app/funa/followersTweets'
+          'https://funaticsbackend-production.up.railway.app/funa/followingTweets/get'
         )
         .subscribe((res: any) => {
           console.log(res);

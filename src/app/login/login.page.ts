@@ -79,7 +79,6 @@ export class LoginPage implements OnInit {
       )
       .pipe(
         catchError((error) => {
-          console.log(error);
           const errorsMessages = error.error.errors;
           const newErrors: Array<String> = [];
           console.log(errorsMessages);
@@ -99,7 +98,7 @@ export class LoginPage implements OnInit {
           return throwError(error);
         })
       )
-      .subscribe((response: any) => {
+      .subscribe((res: any) => {
         this.alert
           .create({
             header: 'Success',
@@ -107,8 +106,27 @@ export class LoginPage implements OnInit {
             buttons: ['OK'],
           })
           .then((alert) => alert.present());
-        const { token } = response;
+        const { token } = res;
         this.setToken(token);
       });
+
+    // try {
+    //   this.http
+    //     .post(
+    //       'https://funaticsbackend-production.up.railway.app/auth/login',
+    //       this.existingUser
+    //     )
+    //     .subscribe((res: any) => {
+    //       this.alert
+    //         .create({
+    //           header: 'Success',
+    //           message: 'User logged successfully',
+    //           buttons: ['OK'],
+    //         })
+    //         .then((alert) => alert.present());
+    //       const { token } = res;
+    //       this.setToken(token);
+    //     });
+    // } catch (error) {
   }
 }

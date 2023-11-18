@@ -8,11 +8,13 @@ export interface newUser {
   profilePicture: string | undefined;
   captchaResponse: string | undefined;
   _id?: any;
+  bio?: string;
 }
 
 export interface existingUser {
   user_info: string;
   password: string;
+  email?: string;
 }
 
 export interface userProfile {
@@ -20,9 +22,11 @@ export interface userProfile {
   lastname: string;
   username: string;
   email?: string;
-  profilePicture: string;
+  profilePicture: string | undefined;
   _id: string;
   bio?: string;
-  followers?: number;
+  followers?: any;
   following?: number;
+  isFollowing?: boolean;
+  createdAt?: any;
 }

@@ -61,6 +61,16 @@
         ></ion-input>
       </ion-item>
       <ion-item>
+        <ion-textarea
+          color="funaprimary"
+          class="custom"
+          [(ngModel)]="newUser.bio"
+          label="Biography"
+          labelPlacement="floating"
+          placeholder="Email"
+        ></ion-textarea>
+      </ion-item>
+      <ion-item>
         <ion-input
           color="funaprimary"
           class="registerbtn"
@@ -69,7 +79,6 @@
           [(ngModel)]="newUser.password"
           label="Password"
           labelPlacement="floating"
-          fill="solid"
           placeholder="Password"
         ></ion-input>
         <ion-icon
@@ -88,7 +97,6 @@
           [(ngModel)]="newUser.repeat_password"
           label="Repeat password"
           labelPlacement="floating"
-          fill="solid"
           placeholder="Repeat password"
         ></ion-input>
         <ion-icon

@@ -84,3 +84,31 @@ ion-col.bottonbtn {
     margin-left: 10px;
     color: var(--ion-color-funacomplemen0-contrast);
   }
+
+  ion-segment-button::part(indicator-background) {
+    background: #f27a2b;
+  }
+
+  ion-segment-button{
+    --color-checked: #f27a2b;
+  }
+
+ion-searchbar{
+    max-width: 270px;
+}
+
+ion-button.filter{
+    background-color:var(--ion-color-funaprimary);
+    border-radius: 25px;
+    
+}
+
+ion-col{
+    border-radius: 25px;
+}
+
+ion-icon.iconfilter{
+    color: #1e1e1e;
+}
+
+

@@ -6,13 +6,14 @@
           <ion-avatar
             class="miniAvatar"
             *ngIf="User.profilePicture === 'image.png'"
-            (click)="viewUser(User._id)"
+            (click)="viewUserConfig()"
           >
             <ion-img src="../../../../assets/img/blank_user.png"></ion-img>
           </ion-avatar>
           <ion-avatar
             class="miniAvatar"
             *ngIf="User.profilePicture != 'image.png'"
+            (click)="viewUserConfig()"
           >
             <ion-img [src]="User.profilePicture"></ion-img>
           </ion-avatar>

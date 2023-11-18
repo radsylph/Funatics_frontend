@@ -98,7 +98,7 @@ export class EditPage implements OnInit {
   async ngOnInit() {
     this.getToken();
     const id = await Preferences.get({ key: 'tweetId' });
-
+    console.log('testing this shit');
     try {
       this.http
         .get(
@@ -106,9 +106,7 @@ export class EditPage implements OnInit {
         )
         .subscribe((res: any) => {
           console.log(res);
-          this.newTweet.title = res.tweet.title;
-          this.newTweet.content = res.tweet.content;
-          this.newTweet.image = res.tweet.image;
+          this.newTweet = res.tweetsWithIsLiked;
           console.log(this.newTweet);
         });
     } catch (error) {

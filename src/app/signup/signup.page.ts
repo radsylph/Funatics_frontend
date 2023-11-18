@@ -27,7 +27,6 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
     siteKey="YOUR_SITE_KEY"
   ></re-captcha>`,
 })
-
 export class SignupPage implements OnInit {
   constructor(
     private http: HttpClient,
@@ -46,7 +45,8 @@ export class SignupPage implements OnInit {
     password: '',
     repeat_password: '',
     captchaResponse: undefined,
-    profilePicture: '',
+    profilePicture: 'image.png',
+    bio: '',
   };
 
   public resolved(captchaResponse: string): void {
@@ -67,7 +67,7 @@ export class SignupPage implements OnInit {
       password: '',
       repeat_password: '',
       captchaResponse: undefined,
-      profilePicture: '',
+      profilePicture: 'image.png',
     };
   }
 
@@ -197,11 +197,16 @@ export class SignupPage implements OnInit {
         .then((alert) => alert.present());
       return;
     }
-    
-    const blob = this.dataURLtoBlob(this.newUser.profilePicture as string);
-    const url = await this.uploadPicture(blob, this.test);
-    console.log(url);
-    this.newUser.profilePicture = url;
+    if (
+      this.newUser.profilePicture !== '' &&
+      this.newUser.profilePicture !== undefined
+    ) {
+      const blob = this.dataURLtoBlob(this.newUser.profilePicture as string);
+      if (blob) {
+        const url = await this.uploadPicture(blob, this.test);
+        this.newUser.profilePicture = url;
+      }
+    }
     console.log(this.newUser);
 
     await this.http

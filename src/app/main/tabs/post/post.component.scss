@@ -80,6 +80,13 @@ img.centerheader{
 
 }
 
+.user-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 10px;
+  }
+
 ion-avatar.miniAvatar{
 max-width: 30px !important;  //any size
 max-height: 30px !important;

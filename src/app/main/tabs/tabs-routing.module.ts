@@ -46,6 +46,25 @@ const routes: Routes = [
         (m) => m.CreateCommentModule
       ),
   },
+  {
+    path: 'user-withoutbtn',
+    loadChildren: () =>
+      import('./user-withoutbtn/user-withoutbtn.module').then(
+        (m) => m.UserWithoutbtnPageModule
+      ),
+  },
+  {
+    path: 'user-withoutconfg',
+    loadChildren: () =>
+      import('./user-withoutconfg/user-withoutconfg.module').then(
+        (m) => m.UserWithoutconfgPageModule
+      ),
+  },
+  {
+    path: 'biograf',
+    loadChildren: () =>
+      import('./biograf/biograf.module').then((m) => m.BiografPageModule),
+  },
 ];
 
 @NgModule({
